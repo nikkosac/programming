@@ -1,0 +1,178 @@
+
+Please answer the following questions to explain your implementation (Directly write your answer below the questions).
+
+
+
+1. Which are the critical regions need to be protected for mutula exclusion? Why are they? 
+The critical regions that need to be protected for mutual exclusion are the points where insertion and removal are about to happen
+and when the buffer data structure was actually being changed. These are the regions because the the producer and consumer functions
+need to know if they are able to insert or remove from the buffer and to tell if there is space to insert or remove.
+the mutex is there at the point where the buffer is being edited to stop any race conditions forming.
+
+
+2. There are 7 requirements your program should achieve: 
+
+1)	When a producer thread inserts a new item into the buffer, a message should be print to screen showing which thread (with ID) insert which item (with value) to which buffer slot (with next_in)
+2)	When a consumer thread removes a new item from the buffer, a message should be print to screen showing which thread (with ID) remove which item (with value) from which buffer slot (with next_out)
+3)	Producers must block if the buffer is full,
+4)	Consumers must block if the buffer is empty,
+5)	No two/more producers insert items to the same buffer slot,
+6)	No two/more consumers remove the items from the same buffer slot,
+7)	The messages must be printed in the order showing the real execution scenarios.
+
+Please explain how they are satisfied in your design (you need to explain one by one!)
+1)when an item is inserted into a buffer the thread id is printed with a message
+2)when a item is removed from the buffer a thread id is printed with a message
+3)a producer does block if a buffer is full
+4)a consumer is blocked if the buffer is empty
+5)producers never produce into the same buffer slot
+6)consumers never remove two items from the same slot
+7)messages are printed for real they are not faked
+
+3) Why you think your design is the most effective one? Is there any other design also works but less effective? 
+My design is the most effective one because it doesnt have any scenarios where there are race conditions 
+or wasted memory space. Another design that works is one utilizing 3 mutexes one before every insertion/removal, one after, 
+and one for the when a change is implemented into the buffer.
+
+my design for the program used 2 semaphores and a mutex. One of the semaphores kept track of how empty the buffer is
+and one of the semaphores kept track of how full the buffer was, named accoridingly. the semaphores and the mutex
+are declared in the buffer header file and they are initialized in the initialization function.
+the full semaphore is set to 0, and the empty semaphore is set to the buffer size. the full semaphore is incremented 
+before a removal and is decremented after an insertion. the empty semaphore is incremented beore an insertion and is 
+decremented after a removal. the mutex is used for each time the buffer is changed to prevent a race condition. 
+
+
+results:
+
+consumer 0 started!
+consumer 4 started!
+producer 0 started!
+consumer 3 started!
+consumer 2 started!
+producer 1 started!
+producer 2 started!
+producer 2: inserted item 6739 into buffer index 0
+consumer 1 started!
+consumer 4: removed item 6739 from buffer index 0
+producer 1: inserted item 1500 into buffer index 1
+producer 1: inserted item 27 into buffer index 2
+consumer 4: removed item 1500 from buffer index 1
+consumer 0: removed item 27 from buffer index 2
+producer 2: inserted item 5183 into buffer index 3
+consumer 2: removed item 5183 from buffer index 3
+producer 0: inserted item 8768 into buffer index 4
+producer 0: inserted item 686 into buffer index 0
+producer 0: inserted item 6674 into buffer index 1
+consumer 1: removed item 8768 from buffer index 4
+consumer 2: removed item 686 from buffer index 0
+consumer 0: removed item 6674 from buffer index 1
+producer 1: inserted item 1846 into buffer index 2
+consumer 3: removed item 1846 from buffer index 2
+producer 2: inserted item 2909 into buffer index 3
+consumer 2: removed item 2909 from buffer index 3
+producer 1: inserted item 5506 into buffer index 4
+producer 1: inserted item 7902 into buffer index 0
+consumer 1: removed item 5506 from buffer index 4
+consumer 4: removed item 7902 from buffer index 0
+producer 0: inserted item 8307 into buffer index 1
+producer 0: inserted item 6156 into buffer index 2
+producer 0: inserted item 7242 into buffer index 3
+consumer 3: removed item 8307 from buffer index 1
+consumer 3: removed item 6156 from buffer index 2
+consumer 4: removed item 7242 from buffer index 3
+producer 1: inserted item 1080 into buffer index 4
+producer 1: inserted item 8208 into buffer index 0
+consumer 1: removed item 1080 from buffer index 4
+consumer 0: removed item 8208 from buffer index 0
+producer 2: inserted item 1920 into buffer index 1
+consumer 2: removed item 1920 from buffer index 1
+producer 0: inserted item 6565 into buffer index 2
+consumer 4: removed item 6565 from buffer index 2
+producer 1: inserted item 4618 into buffer index 3
+consumer 0: removed item 4618 from buffer index 3
+producer 2: inserted item 7216 into buffer index 4
+producer 0: inserted item 654 into buffer index 0
+producer 0: inserted item 2900 into buffer index 1
+consumer 4: removed item 7216 from buffer index 4
+producer 0: inserted item 6719 into buffer index 2
+consumer 4: removed item 654 from buffer index 0
+consumer 3: removed item 2900 from buffer index 1
+consumer 1: removed item 6719 from buffer index 2
+producer 2: inserted item 9037 into buffer index 3
+consumer 1: removed item 9037 from buffer index 3
+producer 2: inserted item 1038 into buffer index 4
+producer 1: inserted item 6385 into buffer index 0
+consumer 4: removed item 1038 from buffer index 4
+producer 1: inserted item 1290 into buffer index 1
+producer 0: inserted item 5488 into buffer index 2
+consumer 3: removed item 6385 from buffer index 0
+consumer 2: removed item 1290 from buffer index 1
+consumer 0: removed item 5488 from buffer index 2
+producer 1: inserted item 5843 into buffer index 3
+consumer 2: removed item 5843 from buffer index 3
+producer 0: inserted item 9757 into buffer index 4
+producer 0: inserted item 5088 into buffer index 0
+producer 0: inserted item 433 into buffer index 1
+consumer 3: removed item 9757 from buffer index 4
+consumer 0: removed item 5088 from buffer index 0
+producer 1: inserted item 7527 into buffer index 2
+consumer 4: removed item 433 from buffer index 1
+consumer 1: removed item 7527 from buffer index 2
+producer 2: inserted item 2672 into buffer index 3
+consumer 2: removed item 2672 from buffer index 3
+producer 1: inserted item 62 into buffer index 4
+consumer 0: removed item 62 from buffer index 4
+producer 0: inserted item 8646 into buffer index 0
+producer 0: inserted item 2785 into buffer index 1
+consumer 1: removed item 8646 from buffer index 0
+consumer 0: removed item 2785 from buffer index 1
+producer 2: inserted item 2132 into buffer index 2
+producer 2: inserted item 4902 into buffer index 3
+consumer 3: removed item 2132 from buffer index 2
+consumer 4: removed item 4902 from buffer index 3
+producer 0: inserted item 740 into buffer index 4
+consumer 0: removed item 740 from buffer index 4
+producer 1: inserted item 1920 into buffer index 0
+consumer 4: removed item 1920 from buffer index 0
+producer 1: inserted item 8705 into buffer index 1
+producer 1: inserted item 7453 into buffer index 2
+consumer 4: removed item 8705 from buffer index 1
+consumer 2: removed item 7453 from buffer index 2
+producer 2: inserted item 2398 into buffer index 3
+producer 2: inserted item 1005 into buffer index 4
+producer 2: inserted item 8835 into buffer index 0
+consumer 3: removed item 2398 from buffer index 3
+consumer 3: removed item 1005 from buffer index 4
+consumer 0: removed item 8835 from buffer index 0
+producer 0: inserted item 6149 into buffer index 1
+producer 0: inserted item 2354 into buffer index 2
+consumer 3: removed item 6149 from buffer index 1
+consumer 3: removed item 2354 from buffer index 2
+producer 2: inserted item 7739 into buffer index 3
+consumer 0: removed item 7739 from buffer index 3
+producer 1: inserted item 8125 into buffer index 4
+producer 1: inserted item 5440 into buffer index 0
+consumer 2: removed item 8125 from buffer index 4
+consumer 1: removed item 5440 from buffer index 0
+producer 0: inserted item 9850 into buffer index 1
+consumer 3: removed item 9850 from buffer index 1
+producer 2: inserted item 56 into buffer index 2
+producer 2: inserted item 7771 into buffer index 3
+consumer 2: removed item 56 from buffer index 2
+consumer 2: removed item 7771 from buffer index 3
+producer 1: inserted item 9907 into buffer index 4
+consumer 0: removed item 9907 from buffer index 4
+producer 2: inserted item 7108 into buffer index 0
+consumer 1: removed item 7108 from buffer index 0
+producer 1: inserted item 5687 into buffer index 1
+producer 2: inserted item 8176 into buffer index 2
+consumer 2: removed item 5687 from buffer index 1
+consumer 1: removed item 8176 from buffer index 2
+producer 2: inserted item 1837 into buffer index 3
+consumer 1: removed item 1837 from buffer index 3
+producer 2: inserted item 6866 into buffer index 4
+consumer 1: removed item 6866 from buffer index 4
+
+
+
+

@@ -1,0 +1,81 @@
+my fifo algorithm works by using 3 variables, place which tracks the current place (set to FrameNR) in the
+accessPattern(set to FrameNR), track(keeps track of if the amount of frames matches the size of the page frame list)
+replace(set to 0) which controls which frame is going to be replaced
+next, and pnum which tracks the amount of faults occur. It begins with a for loop which goes thorugh
+the access pattern for the amount of frames there are. This is because for each new location added to 
+the pageframelist in this section will be a pagefault regardless. If the page is not already in 
+the list it is added to the list and track is increased and the list prints, if it is in the list nothing 
+occurs except a print of the pageframelist. the next step is a while loop which goes until the track 
+is equal to the FrameNR if there was any repeat pages in the first for loop. if the page is in the 
+the framlist track and pnum and place is increased and the framelist prints and the framelist is updated, 
+otherwise the it only prints and the place is increased. place keeps track of the place in the accessPattern. 
+these first two steps filled up the pageframelist, so during this time replacement wasnt necessary.
+the step is a while loop that goes while the current place is less than accesspatternlength. it then
+checks if the accessPattern[place] is in hte pageframelist, if it is it replaces the first in
+by modding the replace variable by FramNR, then incrementing the replace variable. this gives the 
+last place in the framlist which was first in. 
+
+my lru algorithm works by orks by using 3 variables, place which tracks the current place (set to FrameNR) in the
+accessPattern(set to FrameNR), track(keeps track of if the amount of frames matches the size of the page frame list)
+and a doubly linked list (which keeps track of which page was, 
+least recently accessed by using the order of hte list. the head is hte least recently accessed and the 
+tail is the most recently accessed. and it is goes in decreasing order)and pnum which tracks the amount of 
+faults occur. It begins with a for loop which goes thorughthe access pattern for the amount of frames there are. 
+if the current accesspatern is not in the pageframe list the page is added to the linkedlist at the tail and the head is 
+deleted. track nad pnum are also  increased. 
+if it is in the list the page is deleted from the linked list and is reinserted
+at the head. then the pageframelist is updated to match the linkedlist and is printed. next is a while loop
+which goes while track is less than the frameNR. this makes sure that the linked list is full before 
+continuing onto the next step. During this while loop the same thing happens as did the previous while loop.
+the next while loop goes until we have fully traversed te accesspattern array. in this while loop the same thing
+happens as in the previous loops. this results in an LRU algorithm.
+
+results:
+Running program using FIFO algorithm ... ...
+5 -1 -1
+5 2 -1
+5 2 -1
+5 2 0
+4 2 0
+4 6 0
+4 6 0
+4 6 0
+4 6 1
+3 6 1
+3 4 1
+3 4 5
+0 4 5
+0 4 5
+0 4 5
+0 6 5
+0 6 2
+0 6 2
+0 6 2
+1 6 2
+page fault of FIFO: 13
+
+
+The Same Access Pattern: 5 2 2 0 4 6 4 4 1 3 4 5 0 4 5 6 2 0 0 1
+Running program using LRU algorithm ... ...
+start
+5 -1 -1
+2 5 -1
+2 5 -1
+0 2 5
+4 0 2
+6 4 0
+4 6 0
+4 6 0
+1 4 6
+3 1 4
+4 3 1
+5 4 3
+0 5 4
+4 0 5
+5 4 0
+6 5 4
+2 6 5
+0 2 6
+0 2 6
+1 0 2
+page fault of LRU: 13

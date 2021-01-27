@@ -1,0 +1,24 @@
+Nikko Sacramento
+cssc3043
+CS 530, Fall 2020
+Assignment #1, Hex/Binary File Dump
+README
+
+FileManifest: [testfiles: hello.txt, Test.txt] [source file: xbd.c] [output file: xbd.o] [makefile: makefile] [ReadMe: README]
+
+Compile instructions: type in the command 'make xbd' into the command line
+
+Operating Instructions: type in either the command 'xbd <filename>' or 'xbd -b <filename>'
+for hex or binary dump.
+
+Significant design decisions: a significant design decision I made over the course of completing this assignment was
+making the temp string to hold all of the characters and sending that string to the printer function when full to print
+all of the human readable characters. 
+
+Extra Features: Error output if the argument input was done incorrectly, telling user the correct format.
+
+Deficiencies: The only deficiency is that the characters wont be printed along the same column as the other charactes
+if the number of bytes read on the last line does not equal to 6 if binary or 16 if hex.
+
+Lessons Learned: I learned how to convert a character into its HEX and Binary form and gained in depth knowledge 
+on the fact that you have to end strings with '\0' in C.
